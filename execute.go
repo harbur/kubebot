@@ -11,6 +11,7 @@ func execute(name string, arg ...string) string {
 	rescueStdout := os.Stdout
 	r, w, _ := os.Pipe()
 	os.Stdout = w
+	os.Stderr = w
 
 	cmd := exec.Command(name, arg...)
 
