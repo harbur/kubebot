@@ -2,34 +2,49 @@ package main
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/go-chat-bot/bot"
-	"regexp"
-	"strings"
 )
+
+type Kubebot struct {
+	token    string
+	admins   map[string]bool
+	channels map[string]bool
+}
 
 const (
-	pattern = "(?i)\\b(k|kubectl)\\b"
+	forbiddenUserMessage     string = "%s - ⚠ kubectl forbidden for user @%s\n"
+	forbiddenChannelMessage  string = "%s - ⚠ Channel %s forbidden for user @%s\n"
+	forbiddenUserResponse    string = "Sorry @%s, but you don't have permission to run this command :confused:"
+	forbiddenChannelResponse string = "Sorry @%s, but I'm not allowed to run this command here :zipper_mouth_face:"
+	okResponse               string = "Roger that!\n@%s, this is the response to your request:\n ```\n%s\n``` "
 )
 
-var (
-	re = regexp.MustCompile(pattern)
-)
+func kubectl(command *bot.Cmd) (msg string, err error) {
+	t := time.Now()
+	time := t.Format(time.RFC3339)
+	nickname := command.User.Nick
 
-func kubernetes(command *bot.PassiveCmd) (string, error) {
-	if !re.MatchString(command.Raw) {
-		return "", nil
+	if !kb.admins[nickname] {
+		fmt.Printf(forbiddenUserMessage, time, nickname)
+		return fmt.Sprintf(forbiddenUserResponse, nickname), nil
 	}
 
-	kubecmd := re.ReplaceAllString(command.Raw, "")
-	kubecmd = strings.Trim(kubecmd, " ")
-	params := strings.Split(kubecmd, " ")
-	output := execute("kubectl", params...)
+	if !kb.channels[command.Channel] {
+		fmt.Printf(forbiddenChannelMessage, time, command.Channel, nickname)
+		return fmt.Sprintf(forbiddenChannelResponse, nickname), nil
+	}
 
-	return fmt.Sprintf("```\n%s\n```", output), nil
+	output := execute("kubectl", command.Args...)
+
+	return fmt.Sprintf(okResponse, nickname, output), nil
 }
 
 func init() {
-	bot.RegisterPassiveCommand(
-		"kubernetes",
-		kubernetes)
+	bot.RegisterCommand(
+		"kubectl",
+		"Kuberctl Slack integration",
+		"",
+		kubectl)
 }
