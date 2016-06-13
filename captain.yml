@@ -1,0 +1,3 @@
+captain:
+  build: Dockerfile
+  image: harbur/kubebot
