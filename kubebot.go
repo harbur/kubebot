@@ -44,7 +44,7 @@ func kubectl(command *bot.Cmd) (msg string, err error) {
 func init() {
 	bot.RegisterCommand(
 		"kubectl",
-		"Kuberctl Slack integration",
+		"Kubectl Slack integration",
 		"",
 		kubectl)
 }

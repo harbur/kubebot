@@ -4,7 +4,7 @@ import (
 	"strings"
 )
 
-// stringToMap splits `s string` using `sep` as seprator and
+// stringToMap splits `s string` using `sep` as separator and
 // set every word as a key in a new map. The value of
 // all keys is set to `true`
 func stringToMap(s string, sep string) map[string]bool {
