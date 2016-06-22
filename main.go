@@ -1,8 +1,11 @@
 package main
 
 import (
-	"github.com/go-chat-bot/bot/slack"
+	"errors"
+	"fmt"
 	"os"
+
+	"github.com/go-chat-bot/bot/slack"
 )
 
 const (
@@ -16,7 +19,30 @@ var (
 	kb *Kubebot
 )
 
+func validateEnvParams() error {
+	if os.Getenv(slackTokenLabel) == "" {
+		return errors.New("slackTokenLabel env variable not defined")
+	}
+	if os.Getenv(slackChannelsLabel) == "" {
+		return errors.New("slackChannelsLabel env variable not defined")
+	}
+	if os.Getenv(slackAdminsLabel) == "" {
+		return errors.New("slackAdminsLabel env variable not defined")
+	}
+	if os.Getenv(slackCommandsLabel) == "" {
+		return errors.New("slackCommandsLabel env variable not defined")
+	}
+
+	return nil
+}
+
 func main() {
+
+	if err := validateEnvParams(); err != nil {
+		fmt.Printf("Kubebot cannot run. Error: %s\n", err.Error())
+		return
+	}
+
 	kb = &Kubebot{
 		token:    os.Getenv(slackTokenLabel),
 		admins:   stringToMap(os.Getenv(slackAdminsLabel), " "),
