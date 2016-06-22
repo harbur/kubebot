@@ -9,10 +9,11 @@ import (
 )
 
 const (
-	slackTokenLabel    string = "KUBEBOT_SLACK_TOKEN"
-	slackChannelsLabel string = "KUBEBOT_SLACK_CHANNELS_IDS"
-	slackAdminsLabel   string = "KUBEBOT_SLACK_ADMINS_NICKNAMES"
-	slackCommandsLabel string = "KUBEBOT_SLACK_VALID_COMMANDS"
+	slackTokenLabel        string = "KUBEBOT_SLACK_TOKEN"
+	slackChannelsLabel     string = "KUBEBOT_SLACK_CHANNELS_IDS"
+	slackAdminsLabel       string = "KUBEBOT_SLACK_ADMINS_NICKNAMES"
+	slackCommandsLabel     string = "KUBEBOT_SLACK_VALID_COMMANDS"
+	notDefinedErrorMessage string = "%s env variable not defined"
 )
 
 var (
@@ -21,16 +22,16 @@ var (
 
 func validateEnvParams() error {
 	if os.Getenv(slackTokenLabel) == "" {
-		return errors.New("slackTokenLabel env variable not defined")
+		return errors.New(fmt.Sprintf(notDefinedErrorMessage, slackTokenLabel))
 	}
 	if os.Getenv(slackChannelsLabel) == "" {
-		return errors.New("slackChannelsLabel env variable not defined")
+		return errors.New(fmt.Sprintf(notDefinedErrorMessage, slackChannelsLabel))
 	}
 	if os.Getenv(slackAdminsLabel) == "" {
-		return errors.New("slackAdminsLabel env variable not defined")
+		return errors.New(fmt.Sprintf(notDefinedErrorMessage, slackAdminsLabel))
 	}
 	if os.Getenv(slackCommandsLabel) == "" {
-		return errors.New("slackCommandsLabel env variable not defined")
+		return errors.New(fmt.Sprintf(notDefinedErrorMessage, slackCommandsLabel))
 	}
 
 	return nil
