@@ -39,6 +39,9 @@ KUBEBOT_SLACK_CHANNELS_IDS="1234 4321"
 
 # use as many admin nicknames as you want; use a space as separator
 KUBEBOT_SLACK_ADMINS_NICKNAMES="nickname1 nickname2" 
+
+# set which kubectl commands the admins will be able to run
+KUBEBOT_SLACK_VALID_COMMANDS="get describe logs explain"
 ```
 
 
