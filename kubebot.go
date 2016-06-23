@@ -22,7 +22,7 @@ const (
 	forbiddenFlagMessage     string = "%s - ⚠ Flag(s) %s forbidden for user @%s\n"
 	forbiddenUserResponse    string = "Sorry @%s, but you don't have permission to run this command :confused:"
 	forbiddenChannelResponse string = "Sorry @%s, but I'm not allowed to run this command here :zipper_mouth_face:"
-	forbiddenCommandResponse string = "Sorry @%s, but I cannot run this command. I'm allowed to run `%s`"
+	forbiddenCommandResponse string = "Sorry @%s, but I cannot run this command."
 	forbiddenFlagResponse    string = "Sorry @%s, but I'm not allowed to run one of your flags."
 	okResponse               string = "Roger that!\n@%s, this is the response to your request:\n ```\n%s\n``` "
 )
@@ -149,7 +149,7 @@ func kubectl(command *bot.Cmd) (msg string, err error) {
 
 	if len(command.Args) > 0 && !kb.commands[command.Args[0]] {
 		fmt.Printf(forbiddenCommandMessage, time, command.Args, nickname)
-		return fmt.Sprintf(forbiddenCommandResponse, nickname, kb.commands), nil
+		return fmt.Sprintf(forbiddenCommandResponse, nickname), nil
 	}
 
 	if err := validateFlags(command.Args...); err != nil {
