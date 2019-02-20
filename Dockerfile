@@ -8,7 +8,7 @@ WORKDIR /go/src/app
 
 ADD . /go/src/app/
 
-RUN go get -d -v .
-RUN go install -v .
+RUN go-wrapper download
+RUN go-wrapper install
 
 CMD ["app"]
