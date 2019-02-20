@@ -1,4 +1,4 @@
-FROM golang:1.6
+FROM golang:1.11.0
 
 RUN wget http://storage.googleapis.com/kubernetes-release/release/v1.9.11/bin/linux/amd64/kubectl -O /usr/bin/kubectl && \
     chmod +x /usr/bin/kubectl
