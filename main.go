@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/nlopes/slack v0.4.0
+	"github.com/nlopes/slack"
 )
 
 const (
