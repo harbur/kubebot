@@ -1,4 +1,4 @@
-FROM golang:1.6
+FROM golang:1.10.0
 
 RUN wget http://storage.googleapis.com/kubernetes-release/release/v1.9.11/bin/linux/amd64/kubectl -O /usr/bin/kubectl && \
     chmod +x /usr/bin/kubectl
@@ -8,7 +8,9 @@ WORKDIR /go/src/app
 
 ADD . /go/src/app/
 
-RUN go-wrapper download
-RUN go-wrapper install
+#RUN go-wrapper download
+#RUN go-wrapper install
+RUN go get -d -v .
+RUN go install -v .
 
 CMD ["app"]
